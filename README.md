@@ -1,3 +1,4 @@
+
 # Telemetry Fetch
 
 A tool for fetching Formula One telemetry data using OpenF1's API tool. It simplifies the data fetching process significantly and can be used by a normal user.
@@ -36,3 +37,8 @@ git clone https://github.com/shshwtptl/Telemetry-Fetcher.git
 cd Telemetry-Fetcher
 
 python main.py
+```
+
+# NOTE
+
+Many Endpoints and Directories are still missing, because OpenF1's doesn't let anyone fetch the data and show the directories.
