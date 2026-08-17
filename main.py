@@ -1,7 +1,8 @@
 import os
 from urllib.request import urlopen
 import json
-import endpoints
+import others.endpoints as endpoints
+import others.help as h
 import time
 
 
@@ -18,6 +19,8 @@ def selectDir(endpoint):
     appendlink(endpoint.endpoint, parent)
 
 def start():
+    global link
+
     link = baseLink
     clear()
     print("Telemetry Helper")
@@ -33,7 +36,7 @@ def checkInput():
     global queryGenerated
     
     if(inp=='help'):
-        lsDirectories()
+        help()
         found = True
     if(inp=="link"):
         print(link)
@@ -47,11 +50,16 @@ def checkInput():
         found = True
     if(inp=="exit"):
         exit()
+    if(inp=="dir"):
+        lsDirectories()
+        found = True
 
     if(baseGenerated):
         for queryItem in endpoints.queryArr:
             if queryItem.endpoint == inp:
+                print(queryItem.template + "\n")
                 value = input(f"{queryItem.endpoint} = ")
+                clear()
                 if(not queryGenerated):
                     queryGenerated = True
                     appendQuery(f"{queryItem.endpoint}={value}")
@@ -72,8 +80,14 @@ def checkInput():
 
 def lsDirectories():
     clear()
+
+    print("These are the all directories you can browse. Every directory has their unique and common endpoints.\n")
+
     for i in endpoints.direc:
-        print(">>> " + i.parent)
+        print(">>> " + i.parent + "   -> " + i.desc)
+
+    print("\n")
+    print("Choose a directory to browse by typing it in the console.\n")
     checkInput()
 
 def clear():
@@ -86,8 +100,10 @@ def appendQuery(temp):
     link += temp
     addQuery(parent)
     return link
-    print(link)
 
+def help():
+    h.lsCommands()
+    checkInput()
 
 def appendlink(temp, parent):
     global link
@@ -100,7 +116,6 @@ def appendlink(temp, parent):
         link = baseLink + temp
 
     addQuery(parent)
-    print(link)
     return link
 
 def addQuery(parent):
@@ -134,4 +149,6 @@ def curl():
     data = json.loads(response.read().decode('utf-8'))
     with open("output.json", "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
+
+    print("Your Telemetry data has been saved to output.json")
 start()
