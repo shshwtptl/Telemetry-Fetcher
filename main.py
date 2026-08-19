@@ -4,6 +4,7 @@ import json
 import others.endpoints as endpoints
 import others.help as h
 import time
+import export.save as save
 
 
 baseLink = "https://api.openf1.org/v1/"
@@ -145,10 +146,12 @@ def reset():
 def curl():
     global link
 
-    response = urlopen(link)
-    data = json.loads(response.read().decode('utf-8'))
-    with open("output.json", "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
+    # response = urlopen(link)
+    # data = json.loads(response.read().decode('utf-8'))
+    # with open("output.json", "w", encoding="utf-8") as f:
+    #     json.dump(data, f, indent=4, ensure_ascii=False)
 
-    print("Your Telemetry data has been saved to output.json")
+    save.save(link)
+
+    print(f"Your Telemetry data has been saved to {save.filename}")
 start()
